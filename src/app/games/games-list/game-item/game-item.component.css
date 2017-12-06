@@ -1,0 +1,6 @@
+#transp {
+  position:absolute;
+  background: rgba(255,255,255,.5);
+  width: 50%;
+  height: inherit;
+}
