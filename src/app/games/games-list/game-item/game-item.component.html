@@ -1,11 +1,14 @@
-<div style="height: 500px; width: 100%; overflow: hidden; position: relative; margin-bottom:50px;">
+<div (click)="testFunction()" style="height:70vh; width: 100vw; overflow: hidden; position: relative; margin-top: 15vh; margin-bottom: 15vh; cursor: pointer">
   <img
     [src]="game.wallpaperImagePath"
     alt="{{ game.name }}"
-    style="position: absolute; margin: auto; min-height: 100%; min-width: 100%; width: auto; left: -100%; right: -100%; top: -100%; bottom: -100%"/>
+    style="position: absolute; margin: auto; min-height: 70%; min-width: 100%; left: -100%; right: -100%; top: -100%; bottom: -100%"/>
   <div style="margin: 0 auto; width: 50%; height: inherit">
-    <div id="transp">
-      <h2 class="text-center" style="position: absolute">HELLO</h2>
+    <div style="position:absolute; background: rgba(255,255,255,.5); width: 50%;height: inherit; display: flex; justify-content: center">
+      <ul style="text-align: center; width:100%; list-style: none; padding-left: 0">
+        <li class="h2">{{ game.name }}</li>
+        <li class="h3">{{ game.genre }}</li>
+      </ul>
     </div>
   </div>
 </div>

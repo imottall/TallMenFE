@@ -10,5 +10,10 @@ export class GameItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  public testFunction() {
+    console.log("meow");
+  }
 }

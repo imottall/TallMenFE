@@ -9,7 +9,9 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    document.body.style.background = 'rgba(0, 0, 0, .6)';
+  }
 
   HeaderController($scope, $location) {
     $scope.isActive = function (viewLocation) {

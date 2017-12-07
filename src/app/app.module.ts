@@ -8,9 +8,14 @@ import {AppRoutingModule} from './app-routing.module';
 
 // Services
 import { TestService } from './services/testService';
+import { GameService } from './services/game.service';
 import { GamesComponent } from './games/games.component';
 import { GamesListComponent } from './games/games-list/games-list.component';
 import { GameItemComponent } from './games/games-list/game-item/game-item.component';
+
+//for testing purposes with production mode
+//import {enableProdMode} from '@angular/core';
+//enableProdMode();
 
 @NgModule({
   declarations: [
@@ -25,7 +30,7 @@ import { GameItemComponent } from './games/games-list/game-item/game-item.compon
     AppRoutingModule,
     HttpModule
   ],
-  providers: [TestService],
+  providers: [TestService, GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
