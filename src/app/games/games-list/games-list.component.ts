@@ -13,7 +13,6 @@ export class GamesListComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    // TODO: add api implementation
     this.gameService.getGames()
       .then(games => this.games = games)
       .catch(error => console.log(error));
