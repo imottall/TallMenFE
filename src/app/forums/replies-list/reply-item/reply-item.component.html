@@ -1,0 +1,21 @@
+<div>
+  <h2>{{ this.reply.message }}</h2>
+
+  <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <button type="submit" [disabled]="!replyForm.valid">send</button>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label for="message">New reply</label>
+        <input type="text" id="message" formControlName="message" class="form-control">
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-xs-12" style="margin-left: 10%;">
+      <app-reply-item *ngFor="let reply of this.reply.replies" [reply]="reply"></app-reply-item>
+    </div>
+  </div>
+</div>

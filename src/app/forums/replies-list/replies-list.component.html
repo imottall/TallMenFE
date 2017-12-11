@@ -1,0 +1,24 @@
+<div style="margin-top: 10vh; margin-left: 50px">
+  <button (click)="getBack()">
+    IT'S A TRAP
+  </button>
+    <h2>{{ post.title }}</h2>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12" style="margin-top:15vh">
+      <app-reply-item *ngFor="let reply of replies" [reply]="reply"></app-reply-item>
+    </div>
+  </div>
+
+  <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <button type="submit" [disabled]="!replyForm.valid">send</button>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label for="message">New reply</label>
+        <input type="text" id="message" formControlName="message" class="form-control">
+      </div>
+    </div>
+  </form>
+</div>

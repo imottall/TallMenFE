@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ForumService } from '../services/forum.service';
-import { Forum } from '../models/forums/forum.model';
+import { ForumService } from '../../services/forum.service';
+import { Forum } from '../../models/forums/forum.model';
 
 @Component({
   selector: 'app-forums-list',
@@ -13,7 +13,7 @@ export class ForumsListComponent implements OnInit {
 
   ngOnInit() {
     this.forumService.getForums()
-      .then(forums => {this.forums = forums; console.log(forums)})
+      .then(forums => this.forums = forums)
       .catch(error => console.log(error));
   }
 
