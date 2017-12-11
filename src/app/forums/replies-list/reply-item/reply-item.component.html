@@ -12,7 +12,11 @@
       </div>
     </div>
   </form>
-
+  <span *ngIf="this.isLoggedIn">
+    <span *ngIf="this.reply.author === this.account.name">
+      <button (click)="deleteReply()">Delete</button>
+    </span>
+  </span>
   <div class="row">
     <div class="col-xs-12" style="margin-left: 10%;">
       <app-reply-item *ngFor="let reply of this.reply.replies" [reply]="reply"></app-reply-item>

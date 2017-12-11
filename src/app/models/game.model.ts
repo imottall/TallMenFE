@@ -5,6 +5,7 @@ export class Game {
   public coverImagePath: string;
   public _id: string;
   constructor(name: string, genre: string, wallpaperImagePath: string, coverImagePath: string) {
+
     this.name = name;
     this.genre = genre;
     this.wallpaperImagePath = wallpaperImagePath;

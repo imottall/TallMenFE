@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Post} from "../../models/forums/post.model";
-import {Subscription} from "rxjs/Subscription";
 import {ForumService} from "../../services/forum.service";
-import {isNullOrUndefined} from "util";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Forum} from "../../models/forums/forum.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Account} from "../../models/account.model";
+import {AccountService} from "../../services/account.service";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-posts-list',
@@ -16,11 +16,15 @@ export class PostsListComponent implements OnInit {
   posts: Post[] = [];
   forumId: string;
   postForm: FormGroup;
+  account: Account;
 
-  constructor(private forumService: ForumService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private forumService: ForumService, private accountService: AccountService,
+              private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => this.forumId = params['forumId']);
+
+    this.account = this.accountService.account;
 
     this.forumService.getPosts(this.forumId)
       .then(forum => this.posts = forum[0].posts)
@@ -34,7 +38,11 @@ export class PostsListComponent implements OnInit {
   }
 
   public onSubmit() {
+    if(this.accountService.loggedIn) {
+      this.postForm.value.author = this.account.name;
+    }
     this.posts.push(this.postForm.value);
+    console.log(this.postForm.value);
     this.forumService.postPost(this.forumId, this.postForm.value);
   }
 

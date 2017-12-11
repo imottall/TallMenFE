@@ -6,6 +6,7 @@ import {isNullOrUndefined, isUndefined} from "util";
 import {Reply} from "../../models/forums/reply.model";
 import {Post} from "../../models/forums/post.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AccountService} from "../../services/account.service";
 
 @Component({
   selector: 'app-replies-list',
@@ -18,10 +19,13 @@ export class RepliesListComponent implements OnInit {
   replyForm: FormGroup;
   postId: string;
   forumId: string;
+  account: Account;
 
-  constructor(private forumService: ForumService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private forumService: ForumService, private accountService: AccountService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.account = this.accountService.account;
+
     this.route.params.subscribe(params => {this.forumId = params['forumId']; this.postId = params['postId']});
 
     this.forumService.getReplies(this.forumId, this.postId)
@@ -35,6 +39,9 @@ export class RepliesListComponent implements OnInit {
   }
 
   public onSubmit() {
+    if(this.accountService.loggedIn) {
+      this.replyForm.value.author = this.account.name;
+    }
     this.replies.push(this.replyForm.value);
     this.forumService.postReply(this.forumId, this.postId, this.replyForm.value);
   }

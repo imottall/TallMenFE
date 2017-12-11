@@ -8,9 +8,22 @@
         <li routerLinkActive="active"><a routerLink="/games">Games</a></li>
         <li routerLinkActive="active"><a routerLink="/forums">Forum</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a>hello this is a test</a></li>
-      </ul>
+      <div *ngIf="!this.isLoggedIn">
+        <form class="navbar-form navbar-right" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <button type="submit" [disabled]="!loginForm.valid">send</button>
+            <div class="form-group">
+              <label for="name">name</label>
+              <input type="text" id="name" formControlName="name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password">password</label>
+              <input type="text" id="password" formControlName="password" class="form-control">
+            </div>
+        </form>
+      </div>
+      <div *ngIf="this.isLoggedIn">
+        <h3 class="navbar-right">Logged in as: {{ this.account.name }}</h3>
+      </div>
     </div>
   </div>
 </nav>

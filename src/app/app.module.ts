@@ -8,9 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import {AppRoutingModule} from './app-routing.module';
 
 // Services
-import { TestService } from './services/testService';
 import { GameService } from './services/game.service';
 import { ForumService } from './services/forum.service';
+import { AccountService } from './services/account.service';
 import { GamesComponent } from './games/games.component';
 import { GamesListComponent } from './games/games-list/games-list.component';
 import { GameItemComponent } from './games/games-list/game-item/game-item.component';
@@ -20,6 +20,8 @@ import { PostsListComponent } from './forums/posts-list/posts-list.component';
 import { PostItemComponent } from './forums/posts-list/post-item/post-item.component';
 import { RepliesListComponent } from './forums/replies-list/replies-list.component';
 import { ReplyItemComponent } from './forums/replies-list/reply-item/reply-item.component';
+import { CharactersListComponent } from './games/characters-list/characters-list.component';
+import { CharactersItemComponent } from './games/characters-list/characters-item/characters-item.component';
 
 //for testing purposes with production mode
 //import {enableProdMode} from '@angular/core';
@@ -37,7 +39,9 @@ import { ReplyItemComponent } from './forums/replies-list/reply-item/reply-item.
     PostsListComponent,
     PostItemComponent,
     RepliesListComponent,
-    ReplyItemComponent
+    ReplyItemComponent,
+    CharactersListComponent,
+    CharactersItemComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,7 @@ import { ReplyItemComponent } from './forums/replies-list/reply-item/reply-item.
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [TestService, GameService, ForumService],
+  providers: [GameService, ForumService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
