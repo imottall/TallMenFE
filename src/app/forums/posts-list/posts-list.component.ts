@@ -17,11 +17,14 @@ export class PostsListComponent implements OnInit {
   forumId: string;
   postForm: FormGroup;
   account: Account;
+  creatingPost: boolean;
 
   constructor(private forumService: ForumService, private accountService: AccountService,
               private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.creatingPost = false;
+
     this.route.params.subscribe(params => this.forumId = params['forumId']);
 
     this.account = this.accountService.account;
@@ -37,6 +40,11 @@ export class PostsListComponent implements OnInit {
     });
   }
 
+  public setCreatingPost(){
+    this.creatingPost = !this.creatingPost;
+    this.postForm.reset();
+  }
+
   public onSubmit() {
     if(this.accountService.loggedIn) {
       this.postForm.value.author = this.account.name;
@@ -44,6 +52,7 @@ export class PostsListComponent implements OnInit {
     this.posts.push(this.postForm.value);
     console.log(this.postForm.value);
     this.forumService.postPost(this.forumId, this.postForm.value);
+    this.setCreatingPost();
   }
 
   public getBack(){

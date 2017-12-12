@@ -20,6 +20,7 @@ export class RepliesListComponent implements OnInit {
   postId: string;
   forumId: string;
   account: Account;
+  creatingReply: boolean;
 
   constructor(private forumService: ForumService, private accountService: AccountService, private router: Router, private route: ActivatedRoute) { }
 
@@ -38,12 +39,18 @@ export class RepliesListComponent implements OnInit {
     });
   }
 
+  public setCreatingReply(){
+    this.creatingReply = !this.creatingReply;
+    this.replyForm.reset();
+  }
+
   public onSubmit() {
     if(this.accountService.loggedIn) {
       this.replyForm.value.author = this.account.name;
     }
     this.replies.push(this.replyForm.value);
     this.forumService.postReply(this.forumId, this.postId, this.replyForm.value);
+    this.setCreatingReply();
   }
 
   public getBack() {

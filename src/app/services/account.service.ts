@@ -8,7 +8,7 @@ import {Account} from "../models/account.model";
 export class AccountService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   public account: Account;
-  public loggedIn: Boolean = false;
+  public loggedIn: boolean = false;
 
   constructor(private http: Http) { }
 

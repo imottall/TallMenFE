@@ -19,7 +19,7 @@ export class ReplyItemComponent implements OnInit {
   forumId: string;
   postId: string;
   account: Account;
-  isLoggedIn: Boolean;
+  isLoggedIn: boolean;
 
   constructor(private forumService: ForumService, private accountService: AccountService, private route: ActivatedRoute) { }
 
@@ -47,6 +47,6 @@ export class ReplyItemComponent implements OnInit {
   }
 
   public deleteReply(){
-    //TODO: MAKE THIS HAPPEN
+    console.log('testSucceeded');
   }
 }

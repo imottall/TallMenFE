@@ -1,7 +1,7 @@
-<div style="margin-top:5%; margin-left: 5%">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-xs-12" style="margin-top:15vh">
-      <app-characters-item *ngFor="let character of this.characters" [character]="character"></app-characters-item>
+    <div *ngFor="let character of this.characters"  class="col-sm-6">
+      <app-characters-item [character]="character"></app-characters-item>
     </div>
   </div>
 </div>

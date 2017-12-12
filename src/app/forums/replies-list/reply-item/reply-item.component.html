@@ -1,6 +1,6 @@
 <div>
   <h2>{{ this.reply.message }}</h2>
-
+  <!--
   <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <button type="submit" [disabled]="!replyForm.valid">send</button>
@@ -12,6 +12,7 @@
       </div>
     </div>
   </form>
+  -->
   <span *ngIf="this.isLoggedIn">
     <span *ngIf="this.reply.author === this.account.name">
       <button (click)="deleteReply()">Delete</button>
