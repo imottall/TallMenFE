@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Character} from "../../../models/character.model";
+import {GameService} from "../../../services/game.service";
 
 @Component({
   selector: 'app-characters-item',
@@ -8,6 +9,7 @@ import {Character} from "../../../models/character.model";
 })
 export class CharactersItemComponent implements OnInit {
   @Input() character: Character;
+  detail: boolean;
 
   constructor() { }
 
@@ -15,4 +17,7 @@ export class CharactersItemComponent implements OnInit {
     console.log(this.character);
   }
 
+  setDetail(){
+    this.detail = !this.detail;
+  }
 }

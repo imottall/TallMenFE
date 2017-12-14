@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Game} from "../models/game.model";
 import {Character} from "../models/character.model";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class GameService {

@@ -3,12 +3,14 @@ import { Http, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Account} from "../models/account.model";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class AccountService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   public account: Account;
   public loggedIn: boolean = false;
+  accountChanged = new Subject<Account>();
 
   constructor(private http: Http) { }
 
@@ -16,6 +18,7 @@ export class AccountService {
     return this.http.post(environment.serverUrl + '/login', account, { headers: this.headers })
       .toPromise()
       .then(response => {
+        this.accountChanged.next(this.account);
         return response.json() as Account;
       })
       .catch(error => {

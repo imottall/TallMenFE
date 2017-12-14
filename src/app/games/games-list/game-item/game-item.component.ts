@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Game } from '../../../models/game.model';
+import {Subscription} from "rxjs/Subscription";
+import {GameService} from "../../../services/game.service";
+import {Character} from "../../../models/character.model";
 @Component({
   selector: 'app-game-item',
   templateUrl: './game-item.component.html',

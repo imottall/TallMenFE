@@ -5,11 +5,14 @@ import 'rxjs/add/operator/toPromise';
 import { Forum } from '../models/forums/forum.model';
 import {Reply} from "../models/forums/reply.model";
 import {Post} from "../models/forums/post.model";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class ForumService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   constructor(private http: Http) { }
+  repliesChanged = new Subject<Reply[]>();
+  private replies: Reply[];
 
   public getForums(): Promise<Forum[]> {
     return this.http.get(environment.serverUrl + '/forums', { headers: this.headers })
@@ -22,19 +25,30 @@ export class ForumService {
       });
   }
 
-  public getPosts(forumId: string): Promise<Forum[]> {
+  public getPosts(forumId: string): Promise<Post[]> {
     return this.http.get(environment.serverUrl + '/' + forumId + '/posts', { headers: this.headers })
       .toPromise()
       .then(response => {
-        return response.json() as Forum[];
+        return response.json() as Post[];
       })
       .catch(error => {
         return this.handleError(error);
       });
   }
 
-  public postPost(forumId: string, post: Post) {
-    this.http.post(environment.serverUrl + '/'+ forumId + '/newPost' , post,{ headers: this.headers })
+  public getPost(postId: string): Promise<Post[]> {
+    return this.http.get(environment.serverUrl + '/forums/' + postId, { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        return response.json() as Post[];
+      })
+      .catch(error => {
+        return this.handleError(error);
+      });
+  }
+
+  public postPost(post: Post) {
+    this.http.post(environment.serverUrl + '/forums/newPost' , post,{ headers: this.headers })
       .toPromise()
       .then(response => {
         return 'blieb';
@@ -44,34 +58,45 @@ export class ForumService {
       });
   }
 
-
-  public getReplies(forumId: string, postId: string): Promise<Forum[]> {
-    return this.http.get(environment.serverUrl + '/' + forumId + '/' + postId + '/replies', { headers: this.headers })
+  public getReplies(postId: string): Promise<Reply[]> {
+    return this.http.get(environment.serverUrl + '/forums/' + postId + '/replies', { headers: this.headers })
       .toPromise()
       .then(response => {
-        return response.json() as Forum[];
+        this.replies = response.json() as Reply[];
+        return response.json() as Reply[];
       })
       .catch(error => {
         return this.handleError(error);
       });
   }
 
-  public postReply(forumId: string, postId: string, reply: Reply) {
-    this.http.post(environment.serverUrl + '/'+ forumId + '/' + postId + '/newReply' , reply,{ headers: this.headers })
+  public postReply(reply: Reply) {
+    this.http.post(environment.serverUrl + '/forums/posts/newReply' , reply,{ headers: this.headers })
       .toPromise()
       .then(response => {
-        return 'blieb';
+        this.repliesChanged.next(this.replies.slice());
       })
       .catch(error => {
         return this.handleError(error);
       });
   }
 
-  public postReplyToReply(forumId: string, postId: string, replyId: string, reply: Reply) {
-    this.http.post(environment.serverUrl + '/'+ forumId + '/' + postId + '/' + replyId + '/newReply' , reply,{ headers: this.headers })
+  public updateReply(replyId: string, reply: Reply){
+    this.http.post(environment.serverUrl + '/forums/posts/' + replyId + '/update' , reply,{ headers: this.headers })
       .toPromise()
       .then(response => {
-        return 'blieb';
+        this.repliesChanged.next(this.replies.slice());
+      })
+      .catch(error => {
+        return this.handleError(error);
+      });
+  }
+
+  public deleteReply(replyId: string) {
+    this.http.delete(environment.serverUrl + '/forums/posts/' + replyId + '/delete', {headers: this.headers})
+      .toPromise()
+      .then(response => {
+        this.repliesChanged.next(this.replies.slice());
       })
       .catch(error => {
         return this.handleError(error);

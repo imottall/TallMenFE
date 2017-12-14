@@ -5,7 +5,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Account} from "../../models/account.model";
 import {AccountService} from "../../services/account.service";
-import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-posts-list',
@@ -24,19 +23,18 @@ export class PostsListComponent implements OnInit {
 
   ngOnInit() {
     this.creatingPost = false;
-
     this.route.params.subscribe(params => this.forumId = params['forumId']);
-
     this.account = this.accountService.account;
 
     this.forumService.getPosts(this.forumId)
-      .then(forum => this.posts = forum[0].posts)
+      .then(posts => {console.log(posts); this.posts = posts})
       .catch(error => console.log(error));
 
     this.postForm = new FormGroup({
       'title': new FormControl('', Validators.required),
       'message': new FormControl(''),
-      'author': new FormControl('')
+      'authorId': new FormControl(''),
+      'forumId': new FormControl('')
     });
   }
 
@@ -47,11 +45,12 @@ export class PostsListComponent implements OnInit {
 
   public onSubmit() {
     if(this.accountService.loggedIn) {
-      this.postForm.value.author = this.account.name;
+      this.postForm.value.authorId = this.account._id;
     }
+    this.postForm.value.forumId = this.forumId;
     this.posts.push(this.postForm.value);
     console.log(this.postForm.value);
-    this.forumService.postPost(this.forumId, this.postForm.value);
+    this.forumService.postPost(this.postForm.value);
     this.setCreatingPost();
   }
 
