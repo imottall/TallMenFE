@@ -6,6 +6,7 @@ import {GamesListComponent} from "./games/games-list/games-list.component";
 import {ForumsListComponent} from "./forums/forums-list/forums-list.component";
 import {PostsListComponent} from "./forums/posts-list/posts-list.component";
 import {RepliesListComponent} from "./forums/replies-list/replies-list.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const appRoutes: Routes = [
   { path: 'home', component: HeaderComponent },
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
   { path: 'forums', component: ForumsListComponent },
   { path: ':forumId/posts', component: PostsListComponent },
   { path: ':forumId/:postId/replies', component: RepliesListComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

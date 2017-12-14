@@ -3,10 +3,10 @@
   <span *ngIf="this.isLoggedIn">
     <span *ngIf="this.reply.authorId === this.account._id">
       <button (click)="deleteReply()">Delete</button>
-      <button (click)="toggleEdit()">Edite</button>
+      <button (click)="toggleEdit()">Edit</button>
     </span>
   </span>
-  <div *ngIf="this.editing">
+  <div *ngIf="this.editing" style="margin-left: 1%">
     <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="form-group">

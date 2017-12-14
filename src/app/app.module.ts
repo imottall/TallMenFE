@@ -22,6 +22,7 @@ import { RepliesListComponent } from './forums/replies-list/replies-list.compone
 import { ReplyItemComponent } from './forums/replies-list/reply-item/reply-item.component';
 import { CharactersListComponent } from './games/characters-list/characters-list.component';
 import { CharactersItemComponent } from './games/characters-list/characters-item/characters-item.component';
+import { ProfileComponent } from './profile/profile.component';
 
 //for testing purposes with production mode
 //import {enableProdMode} from '@angular/core';
@@ -41,7 +42,8 @@ import { CharactersItemComponent } from './games/characters-list/characters-item
     RepliesListComponent,
     ReplyItemComponent,
     CharactersListComponent,
-    CharactersItemComponent
+    CharactersItemComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

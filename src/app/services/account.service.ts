@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Account} from "../models/account.model";
 import {Subject} from "rxjs/Subject";
+import {Reply} from "../models/forums/reply.model";
 
 @Injectable()
 export class AccountService {
@@ -20,6 +21,19 @@ export class AccountService {
       .then(response => {
         this.accountChanged.next(this.account);
         return response.json() as Account;
+      })
+      .catch(error => {
+        return this.handleError(error);
+      });
+  }
+
+  public getReplies(authorId: string): Promise<Reply[]> {
+    console.log(this.account);
+    return this.http.get(environment.serverUrl + '/forums/posts/' + authorId + '/getReplies', { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        console.log(response);
+        return response.json() as Reply[];
       })
       .catch(error => {
         return this.handleError(error);

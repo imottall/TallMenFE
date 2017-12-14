@@ -1,5 +1,5 @@
 
-<div style="height:70vh; width: 100vw; overflow: hidden; position: relative; margin-top: 15vh; cursor: pointer">
+<div style="height:70vh; width: 100vw; overflow: hidden; position: relative; margin-top: 15vh">
   <img
   [src]="game.wallpaperImagePath"
   alt="{{ game.name }}"
@@ -15,5 +15,5 @@
   </div>
 </div>
 <div style="margin-bottom: 30vh">
-  <app-characters-list [gameName]="this.game.name"></app-characters-list>
+  <app-characters-list [gameName]="this.game.name" style="cursor: pointer"></app-characters-list>
 </div>

@@ -1,0 +1,5 @@
+<div style="margin-top: 5%;">
+  <h3 style="color: white;">Name: {{ this.account.name }}</h3>
+  <h4 style="color: white;">Replies:</h4>
+  <app-reply-item *ngFor="let reply of replies" [reply]="reply"></app-reply-item>
+</div>

@@ -7,6 +7,7 @@
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="/games">Games</a></li>
         <li routerLinkActive="active"><a routerLink="/forums">Forum</a></li>
+        <li *ngIf="this.isLoggedIn" routerLinkActive="active"><a routerLink="/profile">Profile</a></li>
       </ul>
       <div *ngIf="!this.isLoggedIn">
         <form class="navbar-form navbar-right" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -20,9 +21,6 @@
               <input type="text" id="password" formControlName="password" class="form-control">
             </div>
         </form>
-      </div>
-      <div *ngIf="this.isLoggedIn">
-        <h3 class="navbar-right">Logged in as: {{ this.account.name }}</h3>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 <hr>
 <div class="row">
-  <div class="col-xs-12" style="margin-top:5%; margin-left: 5%">
-    <app-forum-item *ngFor="let forum of forums" [forum]="forum"></app-forum-item>
+  <div class="col-xs-12" style="margin-left: 1%">
+    <h2 style="color: white">Topics:</h2>
+    <app-forum-item *ngFor="let forum of forums" [forum]="forum" style="cursor: pointer;"></app-forum-item>
   </div>
 </div>

@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AccountService} from "../services/account.service";
 import {isNullOrUndefined} from "util";
 import {Account} from "../models/account.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: Boolean;
   account: Account;
 
-  constructor(private accountService: AccountService){ }
+  constructor(private accountService: AccountService, private router: Router){ }
 
   ngOnInit(){
     this.isLoggedIn = false;
@@ -30,11 +31,12 @@ export class HeaderComponent implements OnInit {
         if(isNullOrUndefined(account)){
         } else{
             this.accountService.account = this.loginForm.value;
+            this.accountService.account._id = account._id;
             this.accountService.loggedIn = true;
             this.isLoggedIn = true;
             this.account = this.loginForm.value;
+            this.account._id = account._id;
         }})
       .catch(error => console.log(error));
   }
-
 }
