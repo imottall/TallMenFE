@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 container-fluid" style="margin-top: 2%; background: rgba(255,255,255,.5)">
   <h2>{{ reply.message }}</h2>
-  <span class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="reply.account == accountId && accountId != null">
+  <span class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="reply.account + '' == accountId && accountId != null">
     <button style="background-color: aliceblue" (click)="deleteReply()">Delete</button>
     <button style="background-color: aliceblue" (click)="toggleEdit()">Edit</button>
     <button style="background-color: aliceblue" (click)="toggleReply()">Reply</button>
