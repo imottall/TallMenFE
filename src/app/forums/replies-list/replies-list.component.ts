@@ -17,50 +17,32 @@ export class RepliesListComponent implements OnInit {
   replies: Reply[] = [];
   replyForm: FormGroup;
   postId: string;
-  post: Post;
-  forumId: string;
+  post: Post = new Post;
   account: Account;
   creatingReply: boolean;
   subscription: Subscription;
-  subscriptionTwo: Subscription;
 
   constructor(private forumService: ForumService, private accountService: AccountService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.subscription = this.accountService.accountChanged
-      .subscribe(
-        (account: Account) => {
-          this.account = this.accountService.account;
+    this.route.params.subscribe(params => this.postId = params['postId']);
 
-        }
-      );
-    this.subscriptionTwo = this.forumService.repliesChanged
+    this.subscription = this.forumService.repliesChanged
       .subscribe(
         (replies: Reply[]) => {
           this.forumService.getReplies(this.postId)
-            .then(res => {
-              this.replies = res;
-            })
+            .then(post => { this.post = post;})
         }
       );
-    this.route.params.subscribe(params => {
-      this.forumId = params['forumId']; this.postId = params['postId'];
-      this.forumService.getPost(this.postId)
-        .then(post => {this.post = post[0]})
-        .catch(error => console.log(error));
 
-      this.forumService.getReplies(this.postId)
-        .then(replies => {this.replies = replies; console.log(replies)})
-        .catch(error => console.log(error));
-    });
-
-    this.account = this.accountService.account;
+    this.forumService.getReplies(this.postId)
+      .then(post => this.post = post)
+      .catch(error => console.log(error));
 
     this.replyForm = new FormGroup({
       'message': new FormControl('', Validators.required),
-      'authorId': new FormControl(''),
-      'replyToAuthorId': new FormControl(''),
-      'postId': new FormControl('')
+      'account': new FormControl(''),
+      'replyToAuthor': new FormControl('')
     });
   }
 
@@ -70,16 +52,13 @@ export class RepliesListComponent implements OnInit {
   }
 
   public onSubmit() {
-    if(this.accountService.loggedIn) {
-      this.replyForm.value.authorId = this.account._id;
-    }
-    this.replyForm.value.postId = this.postId;
+    this.replyForm.value.account = this.accountService.getAccountId();
     this.replies.push(this.replyForm.value);
-    this.forumService.postReply(this.replyForm.value);
+    this.forumService.postReply(this.postId, this.replyForm.value);
     this.setCreatingReply();
   }
 
   public getBack() {
-    this.router.navigateByUrl('/' + this.forumId + '/posts');
+    this.router.navigateByUrl('/forums');
   }
 }

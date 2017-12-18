@@ -1,12 +1,10 @@
 import { Reply } from './reply.model';
+import {Account} from "../account.model";
 
 export class Post {
   public title: string;
-  public authorId: string;
   public message: string;
-  public forumId: string;
+  public account: Account;
+  public replies: Reply[];
   public _id: string;
-  constructor(title: string) {
-    this.title = title;
-  }
 }

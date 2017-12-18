@@ -11,7 +11,6 @@ import {AppRoutingModule} from './app-routing.module';
 import { GameService } from './services/game.service';
 import { ForumService } from './services/forum.service';
 import { AccountService } from './services/account.service';
-import { GamesComponent } from './games/games.component';
 import { GamesListComponent } from './games/games-list/games-list.component';
 import { GameItemComponent } from './games/games-list/game-item/game-item.component';
 import { ForumsListComponent } from './forums/forums-list/forums-list.component';
@@ -21,8 +20,9 @@ import { PostItemComponent } from './forums/posts-list/post-item/post-item.compo
 import { RepliesListComponent } from './forums/replies-list/replies-list.component';
 import { ReplyItemComponent } from './forums/replies-list/reply-item/reply-item.component';
 import { CharactersListComponent } from './games/characters-list/characters-list.component';
-import { CharactersItemComponent } from './games/characters-list/characters-item/characters-item.component';
 import { ProfileComponent } from './profile/profile.component';
+import {ForumsComponent} from './forums/forums.component';
+import { ForumsStartComponent } from './forums/forums-start/forums-start.component';
 
 //for testing purposes with production mode
 //import {enableProdMode} from '@angular/core';
@@ -32,9 +32,9 @@ import { ProfileComponent } from './profile/profile.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    GamesComponent,
     GamesListComponent,
     GameItemComponent,
+    ForumsComponent,
     ForumsListComponent,
     ForumItemComponent,
     PostsListComponent,
@@ -42,8 +42,8 @@ import { ProfileComponent } from './profile/profile.component';
     RepliesListComponent,
     ReplyItemComponent,
     CharactersListComponent,
-    CharactersItemComponent,
-    ProfileComponent
+    ProfileComponent,
+    ForumsStartComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,13 @@
-<div class="container-fluid">
-  <div class="row">
-    <div *ngFor="let character of this.characters"  class="col-sm-6">
-      <app-characters-item [character]="character"></app-characters-item>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 container-fluid">
+  <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div *ngFor="let character of this.characters"  style="height: 100px; width: 100px" class="col-xs-1 col-sm-1 col-md-1 col-lg-1" >
+      <img (click)="subjectUpdated.emit(character)" style="height: inherit; width: inherit"
+           [src]="this.character.portraitImagePath"
+           alt="{{ this.character.name }}"
+      />
+    </div>
+    <div style="height: 100px; width: 100px" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      <button (click)="subjectUpdated.emit(null)" style="height: 100px; width:100px">GAME</button>
     </div>
   </div>
 </div>

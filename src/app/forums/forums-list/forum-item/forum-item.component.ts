@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Forum} from '../../../models/forums/forum.model';
 import {ForumService} from "../../../services/forum.service";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-forum-item',
@@ -11,9 +11,9 @@ import { Router } from "@angular/router";
 export class ForumItemComponent {
   @Input() forum: Forum;
 
-  constructor(private forumService: ForumService, private router: Router) { }
+  constructor(private forumService: ForumService, private router: Router, private route: ActivatedRoute) { }
 
   public getPosts(){
-    this.router.navigateByUrl('/' + this.forum._id + '/posts');
+    this.router.navigate(['./'+ this.forum._id + '/posts'], {relativeTo: this.route});
   }
 }

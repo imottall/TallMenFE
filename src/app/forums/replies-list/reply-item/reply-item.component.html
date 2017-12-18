@@ -1,23 +1,30 @@
-<div>
-  <h2>{{ this.reply.message }}</h2>
-  <span *ngIf="this.isLoggedIn">
-    <span *ngIf="this.reply.authorId === this.account._id">
-      <button (click)="deleteReply()">Delete</button>
-      <button (click)="toggleEdit()">Edit</button>
-    </span>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 container-fluid" style="margin-top: 2%; background: rgba(255,255,255,.5)">
+  <h2>{{ reply.message }}</h2>
+  <span class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="reply.account == accountId && accountId != null">
+    <button style="background-color: aliceblue" (click)="deleteReply()">Delete</button>
+    <button style="background-color: aliceblue" (click)="toggleEdit()">Edit</button>
+    <button style="background-color: aliceblue" (click)="toggleReply()">Reply</button>
   </span>
-  <div *ngIf="this.editing" style="margin-left: 1%">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="editing || replying">
     <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="form-group">
-          <label for="message">New reply</label>
+        <div class="form-group row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <label for="message">Message:</label>
           <input type="text" id="message" formControlName="message" class="form-control">
         </div>
       </div>
-      <div class="row">
+      <div class="row row col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <button type="submit" [disabled]="!replyForm.valid">send</button>
-        <button (click)="this.setCreatingReply()">Cancel</button>
+        <button (click)="this.toggleEdit()">Cancel</button>
       </div>
     </form>
+  </div>
+  <div *ngIf="account != null" class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ul (click)="goToProfile()">{{account.name}}</ul>
+  </div>
+  <div *ngIf="replyToAccount != null" class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3>Reply to:</h3>
+    <ul (click)="goToProfile()">{{replyToAccount.name}}</ul>
   </div>
 </div>

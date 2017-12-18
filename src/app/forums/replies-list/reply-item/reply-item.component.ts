@@ -3,7 +3,7 @@ import {Post} from "../../../models/forums/post.model";
 import {Reply} from "../../../models/forums/reply.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ForumService} from "../../../services/forum.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {isNullOrUndefined} from "util";
 import {AccountService} from "../../../services/account.service";
 import {Account} from "../../../models/account.model";
@@ -15,30 +15,49 @@ import {Subscription} from "rxjs/Subscription";
   styleUrls: ['./reply-item.component.css']
 })
 export class ReplyItemComponent implements OnInit {
-  @Input() reply: Reply;
+  @Input() reply: Reply = new Reply;
   replyForm: FormGroup;
   forumId: string;
   postId: string;
-  account: Account;
-  isLoggedIn: boolean;
+  accountId: string;
   editing: boolean;
   subscription: Subscription;
+  account: Account;
+  replyToAccount: Account;
+  replying: boolean;
 
-  constructor(private forumService: ForumService, private accountService: AccountService, private route: ActivatedRoute) { }
+  constructor(private forumService: ForumService, private accountService: AccountService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.subscription = this.accountService.accountChanged
-    .subscribe(
-      (account: Account) => {
-        this.account = this.accountService.account;
-        this.isLoggedIn = this.accountService.loggedIn;
-      }
-    );
-    this.account = this.accountService.account;
-    this.isLoggedIn = this.accountService.loggedIn;
     this.route.params.subscribe(params => {
       this.forumId = params['forumId'];
-      this.postId = params['postId']});
+      this.postId = params['postId']
+    });
+
+    if(!isNullOrUndefined(this.reply.account)) {
+      this.accountService.getAccount("" + this.reply.account)
+        .then(account => {
+          this.account = account;
+          console.log(this.account)
+        })
+        .catch(error => console.log(error))
+    }
+
+    if(!isNullOrUndefined(this.reply.replyToAuthor)) {
+      this.accountService.getAccount("" + this.reply.replyToAuthor)
+        .then(account => {
+          this.replyToAccount = account;
+          console.log(this.account)
+        })
+        .catch(error => console.log(error))
+    }
+
+    this.subscription = this.accountService.accountChanged
+      .subscribe(
+        (accountId: string) => this.accountId = this.accountService.getAccountId()
+      );
+
+    this.accountId = this.accountService.getAccountId();
 
     this.replyForm = new FormGroup({
       'message': new FormControl('', Validators.required),
@@ -50,7 +69,6 @@ export class ReplyItemComponent implements OnInit {
 
   public deleteReply(){
     this.forumService.deleteReply(this.reply._id);
-    this.reply = null;
   }
 
   public toggleEdit(){
@@ -58,12 +76,25 @@ export class ReplyItemComponent implements OnInit {
     this.replyForm.reset();
   }
 
+  public toggleReply(){
+    this.replying = !this.replying;
+    this.replyForm.reset();
+  }
+
   public onSubmit() {
-    if(this.accountService.loggedIn) {
-      this.replyForm.value.authorId = this.account._id;
-    }
     this.replyForm.value.postId = this.postId;
-    this.forumService.updateReply(this.reply._id, this.replyForm.value);
-    this.toggleEdit();
+    if(this.editing) {
+      this.forumService.updateReply(this.reply._id, this.replyForm.value);
+      this.toggleEdit();
+    }
+    else if(this.replying) {
+      this.replyForm.value.replyToAuthor = this.account._id;
+      this.forumService.postReply(this.postId, this.replyForm.value);
+      this.toggleReply();
+    }
+  }
+
+  public goToProfile(){
+    this.router.navigateByUrl('/'+ this.reply.account +'/profile')
   }
 }

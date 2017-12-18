@@ -10,9 +10,10 @@ import {Subject} from "rxjs/Subject";
 export class GameService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   constructor(private http: Http) { }
+  private subject: Object;
 
   public getGames(): Promise<Game[]> {
-    return this.http.get(environment.serverUrl + '/games', { headers: this.headers })
+    return this.http.get(environment.serverUrl + '/games/get', { headers: this.headers })
       .toPromise()
       .then(response => {
         return this.convertToGames(response.json());
@@ -23,7 +24,18 @@ export class GameService {
   }
 
   public getCharacters(gameName: string): Promise<Character[]> {
-    return this.http.get(environment.serverUrl + '/' + gameName + '/characters', { headers: this.headers })
+    return this.http.get(environment.serverUrl + '/' + gameName + '/characters/get', { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        return this.convertToCharacters(response.json());
+      })
+      .catch(error => {
+        return this.handleError(error);
+      });
+  }
+
+  public getCharacter(characterName: string): Promise<Character[]> {
+    return this.http.get(environment.serverUrl + '/' + characterName + '/get', { headers: this.headers })
       .toPromise()
       .then(response => {
         return this.convertToCharacters(response.json());
@@ -47,7 +59,6 @@ export class GameService {
   }
 
   private convertToCharacters(response: any) {
-    console.log(response);
     let characters: Character[] = [];
     for(let i = 0; i < response.length; i++){
       characters.push(response[i]._fields[0] as Character)

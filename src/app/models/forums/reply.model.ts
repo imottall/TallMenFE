@@ -1,10 +1,8 @@
+import {Account} from "../account.model";
+
 export class Reply {
-  public message: string;
-  public authorId: string;
-  public replyToAuthorId: string;
-  public postId: string;
-  public _id: string;
-  constructor(message: string) {
-    this.message = message;
-  }
+  public message: string = '';
+  public account: Account = new Account;
+  public replyToAuthor: Account = new Account;
+  public _id: string = '';
 }

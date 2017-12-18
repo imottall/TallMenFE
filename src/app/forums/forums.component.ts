@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-games',
-  templateUrl: './games.component.html',
-  styleUrls: ['./games.component.css'],
+  selector: 'app-forums',
+  templateUrl: './forums.component.html',
+  styleUrls: ['./forums.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GamesComponent implements OnInit {
+export class ForumsComponent implements OnInit {
 
   constructor() { }
 

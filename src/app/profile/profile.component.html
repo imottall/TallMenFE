@@ -1,5 +1,46 @@
-<div style="margin-top: 5%;">
-  <h3 style="color: white;">Name: {{ this.account.name }}</h3>
-  <h4 style="color: white;">Replies:</h4>
-  <app-reply-item *ngFor="let reply of replies" [reply]="reply"></app-reply-item>
+<div class="container-fluid" style="padding: 0 !important; top: 0;">
+  <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3 class="text-center" style="color: aliceblue">{{ this.account.name }}</h3>
+  </div>
+  <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+      <h4 class="text-center" style="color: aliceblue">Replies:</h4>
+      <div style="background: rgba(255,255,255,.5);">
+        <app-reply-item *ngFor="let reply of account.replies" [reply]="reply"></app-reply-item>
+      </div>
+    </div>
+    <span class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></span>
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+      <h4 class="text-center" style="color: aliceblue">Posts:</h4>
+      <app-post-item *ngFor="let post of account.posts" [post]="post"></app-post-item>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="this.loggedInId == this.account._id">
+    <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="text-center" style="color: aliceblue">Update account:</h4>
+    </div>
+    <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button class="center-block" (click)="deleteAccount()">Delete Account</button>
+      <button class="center-block" (click)="updateAccount()">Update Account</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="updatingAccount">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label for="name">name</label>
+            <input type="text" id="name" formControlName="name" class="form-control">
+          </div>
+        </div>
+        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="form-group">
+            <label for="password">password</label>
+            <input type="text" id="password" formControlName="password" class="form-control">
+          </div>
+        </div>
+        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <button type="submit" [disabled]="!loginForm.valid">send</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

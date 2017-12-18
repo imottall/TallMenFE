@@ -1,21 +1,22 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import { HeaderComponent } from './header/header.component';
 import {GamesListComponent} from "./games/games-list/games-list.component";
-import {ForumsListComponent} from "./forums/forums-list/forums-list.component";
 import {PostsListComponent} from "./forums/posts-list/posts-list.component";
 import {RepliesListComponent} from "./forums/replies-list/replies-list.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {ForumsComponent} from "./forums/forums.component";
+import {ForumsStartComponent} from "./forums/forums-start/forums-start.component";
 
 const appRoutes: Routes = [
-  { path: 'home', component: HeaderComponent },
-  { path: 'games', component: GamesListComponent },
-  { path: 'forums', component: ForumsListComponent },
-  { path: ':forumId/posts', component: PostsListComponent },
-  { path: ':forumId/:postId/replies', component: RepliesListComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { path: 'games', component: GamesListComponent},
+  { path: 'forums', component: ForumsComponent, children: [
+    { path: '', component: ForumsStartComponent, pathMatch: 'full' },
+    { path: ':forumId/posts', component: PostsListComponent, pathMatch: 'full'  }
+  ]},
+  { path: ':postId/replies', component: RepliesListComponent, pathMatch: 'full'  },
+  { path: ':accountId/profile', component: ProfileComponent },
+  { path: '', redirectTo: '/games', pathMatch: 'full' }
 ];
 
 @NgModule({

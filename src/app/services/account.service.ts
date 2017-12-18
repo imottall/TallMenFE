@@ -4,22 +4,30 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Account} from "../models/account.model";
 import {Subject} from "rxjs/Subject";
-import {Reply} from "../models/forums/reply.model";
 
 @Injectable()
 export class AccountService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  public account: Account;
-  public loggedIn: boolean = false;
-  accountChanged = new Subject<Account>();
+  accountChanged = new Subject<string>();
+  private accountId: string;
 
   constructor(private http: Http) { }
 
-  public validateLogin(account: Account): Promise<Account> {
-    return this.http.post(environment.serverUrl + '/login', account, { headers: this.headers })
+  public createAccount(account: Account) {
+    return this.http.post(environment.serverUrl + '/accounts/register', account, { headers: this.headers })
       .toPromise()
       .then(response => {
-        this.accountChanged.next(this.account);
+        return response.json() as Account;
+      })
+      .catch(error => {
+        return this.handleError(error);
+      })
+  }
+
+  public validateLogin(account: Account): Promise<Account> {
+    return this.http.post(environment.serverUrl + '/accounts/login', account, { headers: this.headers })
+      .toPromise()
+      .then(response => {
         return response.json() as Account;
       })
       .catch(error => {
@@ -27,17 +35,51 @@ export class AccountService {
       });
   }
 
-  public getReplies(authorId: string): Promise<Reply[]> {
-    console.log(this.account);
-    return this.http.get(environment.serverUrl + '/forums/posts/' + authorId + '/getReplies', { headers: this.headers })
+  public getAccount(accountId: string): Promise<Account> {
+    return this.http.get(environment.serverUrl + '/accounts/' + accountId + '/get', { headers: this.headers })
       .toPromise()
       .then(response => {
-        console.log(response);
-        return response.json() as Reply[];
+        return response.json() as Account;
       })
       .catch(error => {
         return this.handleError(error);
       });
+  }
+
+  public updateAccount(accountId: string, account: Account){
+    return this.http.post(environment.serverUrl + '/accounts/' + accountId + '/update', account, { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        return this.accountChanged.next(this.accountId);
+      })
+      .catch(error => {
+        return this.handleError(error);
+      });
+  }
+
+  public deleteAccount(accountId: string){
+    return this.http.delete(environment.serverUrl + '/accounts/' + accountId + '/delete', { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        return this.removeAccountId();
+      })
+      .catch(error => {
+        return this.handleError(error);
+      })
+  }
+
+  public getAccountId(){
+    return JSON.parse(localStorage.getItem("accountId")) as string;
+  }
+
+  public setAccountId(accountId: string){
+    localStorage.setItem("accountId", JSON.stringify(accountId));
+    this.accountChanged.next(this.accountId);
+  }
+
+  public removeAccountId(){
+    localStorage.removeItem("accountId");
+    this.accountChanged.next(this.accountId);
   }
 
   private handleError(error: any): Promise<any> {
