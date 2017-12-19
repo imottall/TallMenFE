@@ -88,9 +88,11 @@ export class ReplyItemComponent implements OnInit {
       this.toggleEdit();
     }
     else if(this.replying) {
-      this.replyForm.value.replyToAuthor = this.account._id;
-      this.forumService.postReply(this.postId, this.replyForm.value);
-      this.toggleReply();
+      if(!isNullOrUndefined(this.account)){
+        this.replyForm.value.replyToAuthor = this.account._id;
+        this.forumService.postReply(this.postId, this.replyForm.value);
+        this.toggleReply();
+      }
     }
   }
 
