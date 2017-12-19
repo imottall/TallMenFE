@@ -3,9 +3,8 @@
   <span class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="reply.account + '' == accountId && accountId != null">
     <button style="background-color: aliceblue" (click)="deleteReply()">Delete</button>
     <button style="background-color: aliceblue" (click)="toggleEdit()">Edit</button>
-    <button style="background-color: aliceblue" (click)="toggleReply()">Reply</button>
   </span>
-
+  <button style="background-color: aliceblue" (click)="toggleReply()">Reply</button>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="editing || replying">
     <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
       <div class="row">
